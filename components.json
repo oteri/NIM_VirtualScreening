@@ -1,0 +1,11 @@
+{
+  "typescript": true,
+  "framework": "Vite",
+  "style": "Default",
+  "baseColor": "Slate",
+  "globalCSS": "src/index.css",
+  "useCSSVariables": false,
+  "tailwindConfig": "tailwind.config.js",
+  "componentsAlias": "@/components",
+  "utilsAlias": "@/lib/utils"
+}
