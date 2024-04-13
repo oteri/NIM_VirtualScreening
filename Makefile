@@ -7,6 +7,9 @@ run:
 .PHONY: stop
 stop:
 	docker compose down
+.PHONY: bash_frontend
+bash_frontend:
+	docker  run --rm --user "$(shell id -u):$(shell id -g)"  -v .:/app -w /app -it  node:18  bash
 
 .PHONY: init
 init:
