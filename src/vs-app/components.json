@@ -8,7 +8,7 @@
   },
   "typescript": false,
   "aliases": {
-    "utils": "~/lib/utils",
-    "components": "~/components"
+    "utils": "./src/lib/utils",
+    "components": "./src/components"
   }
 }
