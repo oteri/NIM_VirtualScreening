@@ -1,11 +1,13 @@
 version: '3.8'
 services:
   vueapp:
-    build: .
+    build:
+      context: .
+      target: development
     ports:
-      - "3000:4173"  # Vite defaults to port 4173 for the preview server
+      - "3000:3000"  # Assuming the dev server runs on 3000
     volumes:
       - .:/app/my-vue-app
       - /app/my-vue-app/node_modules
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
