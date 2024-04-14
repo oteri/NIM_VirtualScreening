@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { runEsmFold } from '@/lib/esmFoldApi'; // Adjust the import path as necessary
+import { runEsmFold } from '@/lib/esmFoldApi';
+import { runMolmim } from '@/lib/molmimApi';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 import { ref } from 'vue';
@@ -53,14 +54,20 @@ const handleRunEsmFold = async () => {
   const result = await runEsmFold({
     apiKey: apiKey.value,
     proteinSequence: proteinSequence.value,
-  });
+  });  
   responseMessage.value = JSON.stringify(result, null, 2);
   loading.value = false;
 };
 
 
-const onGenerateLigands = () => {
-  console.log('Run Generate Ligands');
+const handleGenerateLigands = async () => {
+  loading.value = true;
+  const result = await runMolmim({
+    apiKey: apiKey.value,
+    smiles: smileString.value,
+  });
+  responseMessage.value = JSON.stringify(result, null, 2);
+  loading.value = false;
 }
 </script>
 
@@ -102,7 +109,7 @@ const onGenerateLigands = () => {
         <FormControl class="w-5/6">
           <Input type="text" placeholder="SMILES string" v-model="smileString" />
           <FormMessage v-if="smileStringError">{{ smileStringError }}</FormMessage>
-          <Button type="button" @click="onGenerateLigands">Generate Ligands</Button>
+          <Button type="button" @click="handleGenerateLigands">Generate Ligands</Button>
         </FormControl>
       </FormItem>
     </FormField>
