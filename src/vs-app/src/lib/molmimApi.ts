@@ -5,7 +5,7 @@ interface RunMolmimParams {
 }
 
 // Define the Molecule interface as before
-interface Molecule {
+export interface Molecule {
   sample: string;
   score: number;
 }
