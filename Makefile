@@ -10,4 +10,4 @@ run_frontend:
 
 .PHONY: init
 init:
-	docker  run --rm --user "$(shell id -u):$(shell id -g)"  -v .:/app -w /app -it  node:18  bash -c "mkdir src && cd src && npm create --yes vite@latest vs-app -- --template vue-ts && cd  vs-app && npm install -D tailwindcss autoprefixer"
+	docker  run --rm --user "$(shell id -u):$(shell id -g)"  -v .:/app -w /app -it  node:18  bash -c "mkdir src && cd src && npm create --yes vite@latest vs-app -- --template vue-ts && cd  vs-app && npm install -D tailwindcss postcss autoprefixer && npx tailwindcss init -p"
