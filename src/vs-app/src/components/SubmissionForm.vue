@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
@@ -8,11 +9,10 @@ import * as z from 'zod';
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from '@/components/ui/form';
 
 // Creating a Zod schema
@@ -55,12 +55,17 @@ const onGenerateLigands = () => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" class="space-y-8">
+    <div>
+      <h3 class="text-lg font-medium">
+        Account
+      </h3>
+      <p class="text-sm text-muted-foreground">
+        Virtual Screening using Nvdia NMI.
+      </p>
+    </div>
+    <Separator />
     <FormField name="apiKey">
-      <FormItem>
-        <FormDescription> Virtual Screening using Nvdia NMI </FormDescription>
-      </FormItem>
-
       <FormItem>
         <FormLabel>API Key</FormLabel>
         <FormControl>
