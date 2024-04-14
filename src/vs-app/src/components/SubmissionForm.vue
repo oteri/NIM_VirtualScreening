@@ -1,69 +1,96 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { FormControl, FormItem, FormLabel } from '@/components/ui/form'
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { toTypedSchema } from '@vee-validate/zod';
+import { useField, useForm } from 'vee-validate';
+import * as z from 'zod';
 
-const schema = toTypedSchema(z.object({
-  apiKey: z.string().nonempty({ message: 'API Key is required.' }),
-  proteinSequence: z.string().nonempty({ message: 'Protein sequence is required.' }),
-  smileString: z.string().optional(),
-}))
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
+// Creating a Zod schema
+const formSchema = z.object({
+  apiKey: z.string().min(1, { message: 'API Key is required.' }),
+  proteinSequence: z.string().min(1, { message: 'Protein Sequence is required.' }),
+  smileString: z.string().min(1, { message: 'SMILES string is required.' }),
+});
+
+// Using `toTypedSchema` to ensure VeeValidate compatibility
+const typedSchema = toTypedSchema(formSchema);
+
+// Setup form with VeeValidate
 const { handleSubmit, resetForm, formContext } = useForm({
-  validationSchema: schema,
+  validationSchema: typedSchema,
   initialValues: {
     apiKey: '',
     proteinSequence: '',
     smileString: '',
   },
-})
+});
+
+const { value: apiKey, errorMessage: apiKeyError } = useField('apiKey');
+const { value: proteinSequence, errorMessage: proteinSequenceError } = useField('proteinSequence');
+const { value: smileString, errorMessage: smileStringError } = useField('smileString');
 
 const onSubmit = handleSubmit((values) => {
-  // Implement your form submission logic here
-  console.log(values);
-})
+  console.log('Form submitted!', values);
+  resetForm();
+});
 
 const onRunESMFold = () => {
-  // Implement ESM Fold logic here
+  console.log('Run ESM Fold');
+  
 }
 
-const onGenerateSmile = () => {
-  // Implement Smile string generation logic here
+const onGenerateLigands = () => {
+  console.log('Run Generate Ligands');
 }
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" class="flex flex-col gap-4">
-    <FormItem>
-      <FormLabel>API Key</FormLabel>
-      <FormControl>
-        <Input type="text" placeholder="Your API Key" v-model="formContext.values.apiKey" />
-      </FormControl>
-    </FormItem>
+  <form @submit.prevent="onSubmit">
+    <FormField name="apiKey">
+      <FormItem>
+        <FormDescription> Virtual Screening using Nvdia NMI </FormDescription>
+      </FormItem>
 
-    <FormItem>
-      <FormLabel>Protein Sequence</FormLabel>
-      <FormControl>
-        <Textarea placeholder="Protein Sequence" v-model="formContext.values.proteinSequence" />
-      </FormControl>
-    </FormItem>
+      <FormItem>
+        <FormLabel>API Key</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="Your API key" v-model="apiKey" />
+          <FormMessage v-if="apiKeyError">{{ apiKeyError }}</FormMessage>
+        </FormControl>
+      </FormItem>
+    </FormField>
 
-    <FormItem>
-      <Button type="button" @click="onRunESMFold">Run ESM Fold</Button>
-    </FormItem>
+    <FormField name="proteinSequence">
+      <FormItem>
+        <FormLabel>Protein Sequence</FormLabel>
+        <FormControl>
+          <Textarea placeholder="Protein Sequence" v-model="proteinSequence" />
+          <FormMessage v-if="proteinSequenceError">{{ proteinSequenceError }}</FormMessage>
+        </FormControl>
+        <Button type="button" @click="onRunESMFold">Run ESM Fold</Button>
+      </FormItem>
+    </FormField>
 
-    <FormItem>
-      <FormLabel>Smile String</FormLabel>
-      <FormControl>
-        <Input type="text" placeholder="Smile String" v-model="formContext.values.smileString" />
-      </FormControl>
-      <Button type="button" @click="onGenerateSmile">Generate</Button>
-    </FormItem>
+    <FormField name="smileString">
+      <FormItem>
+        <FormLabel>SMILES String</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="SMILES string" v-model="smileString" />
+          <FormMessage v-if="smileStringError">{{ smileStringError }}</FormMessage>
+          <Button type="button" @click="onGenerateLigands">Generate Ligands</Button>
+        </FormControl>
+      </FormItem>
+    </FormField>
 
     <div class="flex gap-2">
       <Button type="submit">Submit</Button>
@@ -71,7 +98,3 @@ const onGenerateSmile = () => {
     </div>
   </form>
 </template>
-
-<style scoped>
-/* Add your CSS styles here */
-</style>
