@@ -3,8 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+import { runEsmFold } from '@/lib/esmFoldApi'; // Adjust the import path as necessary
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
+import { ref } from 'vue';
 import * as z from 'zod';
 
 import {
@@ -38,16 +40,24 @@ const { handleSubmit, resetForm, formContext } = useForm({
 const { value: apiKey, errorMessage: apiKeyError } = useField('apiKey');
 const { value: proteinSequence, errorMessage: proteinSequenceError } = useField('proteinSequence');
 const { value: smileString, errorMessage: smileStringError } = useField('smileString');
+const loading = ref(false);
+const responseMessage = ref('');
 
 const onSubmit = handleSubmit((values) => {
   console.log('Form submitted!', values);
   resetForm();
 });
 
-const onRunESMFold = () => {
-  console.log('Run ESM Fold');
-  
-}
+const handleRunEsmFold = async () => {
+  loading.value = true;
+  const result = await runEsmFold({
+    apiKey: apiKey.value,
+    proteinSequence: proteinSequence.value,
+  });
+  responseMessage.value = JSON.stringify(result, null, 2);
+  loading.value = false;
+};
+
 
 const onGenerateLigands = () => {
   console.log('Run Generate Ligands');
@@ -82,7 +92,7 @@ const onGenerateLigands = () => {
           <Textarea placeholder="Protein Sequence" v-model="proteinSequence" />
           <FormMessage v-if="proteinSequenceError">{{ proteinSequenceError }}</FormMessage>
         </FormControl>
-        <Button type="button" @click="onRunESMFold">Run ESM Fold</Button>
+        <Button type="button" @click="handleRunEsmFold">Run ESM Fold</Button>
       </FormItem>
     </FormField>
 
