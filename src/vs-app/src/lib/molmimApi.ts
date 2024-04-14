@@ -8,6 +8,7 @@ interface RunMolmimParams {
 export interface Molecule {
   sample: string;
   score: number;
+  sdf?: string; // Optional sdf property to store SDF format
 }
 
 // Update the function to return a Promise of an array of Molecules
