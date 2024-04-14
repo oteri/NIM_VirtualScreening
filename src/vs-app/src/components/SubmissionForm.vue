@@ -55,10 +55,10 @@ const onGenerateLigands = () => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" class="space-y-8">
+  <form @submit.prevent="onSubmit" class="container mx-auto">
     <div>
       <h3 class="text-lg font-medium">
-        Account
+        Virtual Screening
       </h3>
       <p class="text-sm text-muted-foreground">
         Virtual Screening using Nvdia NMI.
@@ -66,9 +66,9 @@ const onGenerateLigands = () => {
     </div>
     <Separator />
     <FormField name="apiKey">
-      <FormItem>
-        <FormLabel>API Key</FormLabel>
-        <FormControl>
+      <FormItem class="flex items-center w-full">
+        <FormLabel class="w-1/6">API Key</FormLabel>
+        <FormControl class="w-5/6">
           <Input type="text" placeholder="Your API key" v-model="apiKey" />
           <FormMessage v-if="apiKeyError">{{ apiKeyError }}</FormMessage>
         </FormControl>
@@ -76,9 +76,9 @@ const onGenerateLigands = () => {
     </FormField>
 
     <FormField name="proteinSequence">
-      <FormItem>
-        <FormLabel>Protein Sequence</FormLabel>
-        <FormControl>
+      <FormItem class="flex flex-col w-full">
+        <FormLabel class="w-1/6">Protein Sequence</FormLabel>
+        <FormControl class="w-full">
           <Textarea placeholder="Protein Sequence" v-model="proteinSequence" />
           <FormMessage v-if="proteinSequenceError">{{ proteinSequenceError }}</FormMessage>
         </FormControl>
@@ -87,19 +87,14 @@ const onGenerateLigands = () => {
     </FormField>
 
     <FormField name="smileString">
-      <FormItem>
-        <FormLabel>SMILES String</FormLabel>
-        <FormControl>
+      <FormItem class="flex items-center w-full">
+        <FormLabel class="w-1/6">SMILES String</FormLabel>
+        <FormControl class="w-5/6">
           <Input type="text" placeholder="SMILES string" v-model="smileString" />
           <FormMessage v-if="smileStringError">{{ smileStringError }}</FormMessage>
           <Button type="button" @click="onGenerateLigands">Generate Ligands</Button>
         </FormControl>
       </FormItem>
     </FormField>
-
-    <div class="flex gap-2">
-      <Button type="submit">Submit</Button>
-      <Button type="button" @click="resetForm">Reset</Button>
-    </div>
   </form>
 </template>
