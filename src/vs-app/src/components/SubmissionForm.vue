@@ -43,7 +43,7 @@ import { useField, useForm } from 'vee-validate';
 import * as z from 'zod';
 
 import { DockingResult, runDiffDock } from '@/lib/DiffDockRunner';
-import { downloadFile } from '@/lib/IO';
+import { buildMultiModelPDB, downloadFile } from '@/lib/IO';
 import { runEsmFold } from '@/lib/esmFoldApi';
 import { Molecule, runMolmim } from '@/lib/molmimApi';
 
@@ -90,6 +90,9 @@ const paginatedMolecules = computed(() => {
   const end = start + itemsPerPage.value;
   return molecules.value.slice(start, end);
 });
+const computeGlobalIndex = (index) => {
+  return currentPage.value * itemsPerPage.value + index;
+};
 
 // Methods to navigate pagination
 const nextPage = () => {
@@ -240,12 +243,20 @@ const handleRunDiffDock  = async () => {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead v-if="complexes.length>0">Download</TableHead>
               <TableHead>SMILES</TableHead>
               <TableHead class="text-right">Score</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow v-for="(molecule, index) in paginatedMolecules" :key="index">
+              <TableCell v-if="complexes.length>0">
+                <Button type="button"
+                  @click="downloadFile(`complex_${computeGlobalIndex(index)}.pdb`, buildMultiModelPDB(complexes[computeGlobalIndex(index)].trajectory))">
+                  <i v-if="!complexes[computeGlobalIndex(index)].error" class="fas fa-download" aria-hidden="true"></i>
+                  <i v-else class="fas fa-exclamation-triangle" aria-hidden="true" style="color: red;"></i>
+                </Button>
+              </TableCell>
               <TableCell>{{ molecule.sample }}</TableCell>
               <TableCell class="text-right">{{ molecule.score }}</TableCell>
             </TableRow>

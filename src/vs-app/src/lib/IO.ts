@@ -18,3 +18,15 @@ export function downloadFile(fileName:string, content:string) {
   window.URL.revokeObjectURL(link.href); // Clean up the URL object
   document.body.removeChild(link); // Clean up by removing the link if it was added to the document
 }
+
+
+
+/**
+ * Concatenates multiple PDB model strings into a single multi-model PDB string.
+ * 
+ * @param trajectory - Array of strings, where each string is a PDB model.
+ * @returns A single string containing all PDB models concatenated together.
+ */
+export function buildMultiModelPDB(trajectory: string[]): string {
+  return trajectory.join('\n');
+}
