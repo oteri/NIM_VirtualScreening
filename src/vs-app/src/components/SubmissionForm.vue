@@ -43,6 +43,7 @@ import { useField, useForm } from 'vee-validate';
 import * as z from 'zod';
 
 import { DockingResult, runDiffDock } from '@/lib/DiffDockRunner';
+import { downloadFile } from '@/lib/IO';
 import { runEsmFold } from '@/lib/esmFoldApi';
 import { Molecule, runMolmim } from '@/lib/molmimApi';
 
@@ -204,6 +205,13 @@ const handleRunDiffDock  = async () => {
         <Button type="button" @click="handleRunEsmFold">Run ESM Fold</Button>
       </FormItem>
     </FormField>
+
+    <FormField v-if="proteinPdb!=''" name="downloadPDB">
+      <FormItem class="flex flex-col w-full">
+        <Button type="button" @click="downloadFile('protein_data.pdb', proteinPdb)">Download Protein Data</Button>
+      </FormItem>
+    </FormField>
+
 
     <FormField v-if="proteinPdb!=''" name="smileString">
       <FormItem class="flex items-center w-full">
