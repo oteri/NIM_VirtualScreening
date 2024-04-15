@@ -37,7 +37,6 @@ export const runEsmFold = async ({
       }
 
       const jsonResponse: EsmFoldResponse = await response.json();
-      const pdbText = jsonResponse.pdbs[0]
-      console.log(pdbText)
+      const pdbText = jsonResponse.pdbs[0]      
       return pdbText;
 }
