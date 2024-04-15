@@ -34,6 +34,9 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
+
+import Spinner from '@/components/Spinner.vue';
+
 import { toTypedSchema } from '@vee-validate/zod';
 import { useField, useForm } from 'vee-validate';
 
@@ -106,19 +109,23 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const handleRunEsmFold = async () => {
+  try{
   loading.value = true;
+
   proteinPdb.value = await runEsmFold({
     apiKey: apiKey.value,
     proteinSequence: proteinSequence.value,
   });    
-  loading.value = false;
+
+ } finally {
+    loading.value = false;
+  }
 };
 
 
-const handleGenerateLigands = async () => {
-  loading.value = true;
-
+const handleGenerateLigands = async () => {  
   try {
+    loading.value = true;
     // Fetch molecules
     const fetchedMolecules = await runMolmim({
       apiKey: apiKey.value,
@@ -147,16 +154,20 @@ const handleGenerateLigands = async () => {
 }
 
 const handleRunDiffDock  = async () => {
-  loading.value = true;
-  const ligands = molecules.value.map( mol=>mol.sdf);
-
-  complexes.value = await runDiffDock({
-    apiKey: apiKey.value,
-    receptor: proteinPdb.value,
-    ligands: ligands
-  });   
+  try{
+    loading.value = true;
+    const ligands = molecules.value.map( mol=>mol.sdf);
   
-  loading.value = false;
+    complexes.value = await runDiffDock({
+      apiKey: apiKey.value,
+      receptor: proteinPdb.value,
+      ligands: ligands
+    });   
+
+  }
+  finally{
+    loading.value = false;
+  }  
 }
 
 
@@ -249,4 +260,5 @@ const handleRunDiffDock  = async () => {
     </Card>
 
   </form>
+  <Spinner :visible="loading" />
 </template>
