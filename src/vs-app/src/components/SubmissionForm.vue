@@ -43,9 +43,10 @@ import { useField, useForm } from 'vee-validate';
 import * as z from 'zod';
 
 import { DockingResult, runDiffDock } from '@/lib/DiffDockRunner';
-import { buildMultiModelPDB, downloadFile } from '@/lib/IO';
+import { buildMultiModelSDF, downloadFile } from '@/lib/IO';
 import { runEsmFold } from '@/lib/esmFoldApi';
 import { Molecule, runMolmim } from '@/lib/molmimApi';
+import { smiles2sdf } from '@/lib/openbabel';
 
 // Creating a Zod schema
 const formSchema = z.object({
@@ -136,19 +137,16 @@ const handleGenerateLigands = async () => {
       smiles: smileString.value,
     });
 
-    // Convert SMILES to SDF and update molecules
-    molecules.value = fetchedMolecules.map(mol => {
-      const rdKitMol = window.RDKit.get_mol(mol.sample);
-      if (rdKitMol) {
+    
+    const promises = fetchedMolecules.map(async mol => {
+        const sdf = await smiles2sdf(mol.sample);
         return {
-          ...mol,
-          sdf: rdKitMol.get_molblock() // Add SDF data to the molecule object
+            ...mol,
+            ...(sdf ? { sdf } : {})  // Only add the sdf property if conversion was successful
         };
-      } else {
-        console.error('Invalid SMILES for molecule:', mol.sample);
-        return { ...mol }; // Return the original molecule if conversion fails
-      }
     });
+
+    molecules.value = await Promise.all(promises); 
 
   } catch (error) {
     console.error('Error generating ligands:', error);
@@ -252,7 +250,7 @@ const handleRunDiffDock  = async () => {
             <TableRow v-for="(molecule, index) in paginatedMolecules" :key="index">
               <TableCell v-if="complexes.length>0">
                 <Button type="button"
-                  @click="downloadFile(`complex_${computeGlobalIndex(index)}.pdb`, buildMultiModelPDB(complexes[computeGlobalIndex(index)].trajectory))">
+                  @click="downloadFile(`complex_${computeGlobalIndex(index)}.sdf`, buildMultiModelSDF(complexes[computeGlobalIndex(index)].ligand_positions))">
                   <i v-if="!complexes[computeGlobalIndex(index)].error" class="fas fa-download" aria-hidden="true"></i>
                   <i v-else class="fas fa-exclamation-triangle" aria-hidden="true" style="color: red;"></i>
                 </Button>

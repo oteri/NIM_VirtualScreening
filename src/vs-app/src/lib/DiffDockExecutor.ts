@@ -23,7 +23,7 @@ export default async function executeDiffDock({
   num_poses: 20,
   steps: 18,
   time_divisions: 20,
-  save_trajectory: true,
+  save_trajectory: false,
   is_staged: true,
 }
 

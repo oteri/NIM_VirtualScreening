@@ -9,7 +9,7 @@ export function downloadFile(fileName:string, content:string) {
     console.error("No content available to download.");
     return;
   }
-  const blob = new Blob([content], { type: 'chemical/x-pdb' }); // Adjust the MIME type as necessary
+  const blob = new Blob([content], { type: 'chemical/x-mdl-sdfile' }); // Adjust the MIME type as necessary
   const link = document.createElement('a');
   link.href = window.URL.createObjectURL(blob);
   link.download = fileName;
@@ -22,11 +22,11 @@ export function downloadFile(fileName:string, content:string) {
 
 
 /**
- * Concatenates multiple PDB model strings into a single multi-model PDB string.
+ * Concatenates multiple SDF model strings into a single multi-model SDF string.
  * 
- * @param trajectory - Array of strings, where each string is a PDB model.
- * @returns A single string containing all PDB models concatenated together.
+ * @param trajectory - Array of strings, where each string is a SDF model.
+ * @returns A single string containing all SDF models concatenated together.
  */
-export function buildMultiModelPDB(trajectory: string[]): string {
-  return trajectory.join('\n');
+export function buildMultiModelSDF(trajectory: string[]): string {
+  return trajectory.join('').replace('$$$$\n','$$$$');
 }
