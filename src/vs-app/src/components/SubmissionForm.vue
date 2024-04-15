@@ -198,7 +198,7 @@ const handleRunDiffDock  = async () => {
       <FormItem class="flex flex-col w-full">
         <FormLabel class="w-1/6">Protein Sequence</FormLabel>
         <FormControl class="w-full">
-          <Textarea placeholder="Protein Sequence" v-model="proteinSequence" />
+          <Textarea placeholder="Protein Sequence used as input for EMS Fold" v-model="proteinSequence" />
           <FormMessage v-if="proteinSequenceError">{{ proteinSequenceError }}</FormMessage>
         </FormControl>
         <Button type="button" @click="handleRunEsmFold">Run ESM Fold</Button>
@@ -209,7 +209,7 @@ const handleRunDiffDock  = async () => {
       <FormItem class="flex items-center w-full">
         <FormLabel class="w-1/6">SMILES String</FormLabel>
         <FormControl class="w-5/6">
-          <Input type="text" placeholder="SMILES string" v-model="smileString" />
+          <Input type="text" placeholder="SMILES string used as input for molmim-generate" v-model="smileString" />
           <FormMessage v-if="smileStringError">{{ smileStringError }}</FormMessage>
           <Button type="button" @click="handleGenerateLigands">Generate Ligands</Button>
         </FormControl>
