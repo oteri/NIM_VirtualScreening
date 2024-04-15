@@ -205,7 +205,7 @@ const handleRunDiffDock  = async () => {
       </FormItem>
     </FormField>
 
-    <FormField name="smileString">
+    <FormField v-if="proteinPdb!=''" name="smileString">
       <FormItem class="flex items-center w-full">
         <FormLabel class="w-1/6">SMILES String</FormLabel>
         <FormControl class="w-5/6">
