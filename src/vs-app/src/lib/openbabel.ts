@@ -27,12 +27,11 @@ export async function smiles2sdf(smiles: string): Promise<string | null> {
         }
 
         const data = await response.json();
-        if(data.result=="")
-            throw Error(data.log)
+        if(data.result==="")
+            throw new Error(data.log)
         return data.result; // Assuming the API returns JSON with a 'result' field containing the SDF data
     } catch (error) {
-        console.error("Error converting SMILES to SDF:", error);
-        return null;
+        throw new Error(`Error converting SMILES to SDF: ${error}`);
     }
 }
 

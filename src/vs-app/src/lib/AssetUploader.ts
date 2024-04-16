@@ -2,7 +2,7 @@
 interface UploadAssetsParams {
   apiKey: string;
   receptor: string,
-  ligands: string[];
+  ligands: (string|undefined)[];
 }
 export const uploadAssets = async ({
   apiKey,
@@ -23,29 +23,39 @@ export const uploadAssets = async ({
   ];
 
   try {
-    const assetIds = await Promise.all(
+    const results = await Promise.allSettled(
       uploadData.map(async ({ description, payload }) => {
+        if(payload===undefined)
+          throw new Error("Ligand payload is undefined");
+        
         const metadataResponse = await getAssetMetadata(assetUploadUrl, description, headers);
 
-        if (!metadataResponse.ok) {
-          throw new Error();
-        }
+        if (!metadataResponse.ok)
+          throw new Error("Error getting metadata");
 
         const { assetId, uploadUrl, contentType } = await metadataResponse.json();
-
         const uploadResponse = await uploadAsset(uploadUrl, payload, contentType, description);
 
         if (!uploadResponse.ok) {
           const errorText = await uploadResponse.text();
-          throw new Error();
+          throw new Error(errorText);
         }
+        
         return assetId;
       })
     );
+
+
+    const assetIds = results.map(result => {
+      if (result.status === "fulfilled")
+        return result.value; // The successful docking result
+      return undefined
+    });
     return assetIds;
+
   } catch (error:any) {
     console.error('Upload error:', error.message);
-    throw error;
+    throw new Error;
   }
 }
 async function uploadAsset(uploadUrl: any, payload: string, contentType: any, description: string) {

@@ -1,6 +1,6 @@
 // Define the type for the function parameters and the response
 interface RunEsmFoldParams {
-  apiKey: string;
+  apiKey: string|undefined;
   proteinSequence: string;
 }
 

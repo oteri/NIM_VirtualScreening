@@ -5,7 +5,7 @@ import executeDiffDock from "./DiffDockExecutor"; // Assuming executeDiffDock is
 interface RunDiffDockParams {
   apiKey: string;
   receptor: string;
-  ligands: string[];
+  ligands: (string|undefined)[];
 }
 
 // Define the Molecule interface
@@ -34,17 +34,17 @@ export const runDiffDock = async ({
     ligandIds = assetIds.slice(1);  // Get all elements after the first one as ligand IDs
   } catch (error) {
     console.error("Error in running DiffDock:", error);
-    throw error;  // Re-throw to handle it in caller function or global error handler
+    throw new Error;  // Re-throw to handle it in caller function or global error handler
   }
 
   try {
     // Assuming `ligandIds` is an array of asset IDs for the ligands
     const results = await Promise.allSettled(
-      ligandIds.map(ligandAssetId => executeDiffDock({
-        apiKey,
-        proteinAssetId, // Assuming this is defined elsewhere and available here
-        ligandAssetId,
-      }))
+                      ligandIds.map(ligandAssetId => executeDiffDock({
+                        apiKey,
+                        proteinAssetId,
+                        ligandAssetId,
+                      }))
     );
   
     // Process results to handle both successes and errors
@@ -56,6 +56,7 @@ export const runDiffDock = async ({
       }
     });
     return executionResults;
+    
   } catch (error) {
     console.error("Error managing docking processes:", error);
   }    

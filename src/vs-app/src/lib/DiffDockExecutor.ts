@@ -44,6 +44,6 @@ export default async function executeDiffDock({
     return await executionResponse.json();
   } catch (error) {
     console.error('Execution error:', error.message);
-    throw error;
+    throw new Error;
   }
 }
