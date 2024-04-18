@@ -13,8 +13,8 @@
 
     <FormField v-if="proteinPdb!=''" name="downloadPDB">
       <FormItem class="flex flex-col w-full">
-        <Button type="button" @click="downloadFile('protein_data.pdb', proteinPdb)">Download Protein
-          Data</Button>
+        <Button class="mt-4" type="button" @click="downloadFile('protein_data.pdb', proteinPdb)">
+          Download Protein Structure</Button>
       </FormItem>
     </FormField>
   </form>

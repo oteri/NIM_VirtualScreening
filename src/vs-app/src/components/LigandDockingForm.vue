@@ -1,11 +1,15 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" class="mb-2">
     <FormField v-if="props.receptor!==undefined" name="smileString">
       <FormItem class="flex items-center w-full">
         <FormLabel class="w-1/6">SMILES String</FormLabel>
-        <FormControl class="w-5/6">
+
+        <FormControl class="w-4/6">
           <Input type="text" placeholder="SMILES string used as input for molmim-generate" v-model="smileString" />
           <FormMessage v-if="smileStringError">{{ smileStringError }}</FormMessage>
+        </FormControl>
+
+        <FormControl class="ml-2 w-1/6">
           <Button type="submit">Generate Ligands</Button>
         </FormControl>
       </FormItem>
