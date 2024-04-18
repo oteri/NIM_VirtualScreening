@@ -58,7 +58,6 @@ export const runMolmim = async ({
     }
 
   } catch (error) {
-    console.error('Error making request:', error);
-    throw new Error;
+    throw new Error(`Error making request:${error}`);
   }
 }

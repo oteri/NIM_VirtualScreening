@@ -36,14 +36,12 @@ export default async function executeDiffDock({
     });
 
     if (!executionResponse.ok) {
-      throw new Error(
-        
-      );
+      throw new Error( "Error Running DiffDock");
     }
 
     return await executionResponse.json();
-  } catch (error) {
-    console.error('Execution error:', error.message);
-    throw new Error;
+    
+  } catch (error:any) {
+    throw new Error(`Execution error: ${error.message}`);
   }
 }
