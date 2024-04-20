@@ -21,8 +21,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue';
-
 import { runEsmFold } from '@/lib/esmFoldApi';
 import { useField } from 'vee-validate';
 import { ref } from 'vue';
