@@ -19,11 +19,11 @@ export default defineConfig({
   },
     server: {
       proxy: {        
-        '/api': {
+        '/biology': {
           target: 'https://health.api.nvidia.com/',
           changeOrigin: true,
           secure: false, 
-          rewrite: (path) => path.replace(/^\/api/, ''),     
+          rewrite: (path) => path.replace(/^\/biology/, ''),     
           ws: true,
           configure: (proxy, _options) => {
             proxy.on('error', (err, _req, _res) => {

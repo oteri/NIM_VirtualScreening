@@ -9,7 +9,7 @@ export default async function executeDiffDock({
   ligandAssetId
 }: DiffDockRunParams) {
   
-  const invokeUrl = '/api/v1/biology/mit/diffdock' //'https://health.api.nvidia.com/v1/biology/mit/diffdock';
+  const invokeUrl = '/biology/v1/biology/mit/diffdock' //'https://health.api.nvidia.com/v1/biology/mit/diffdock';
   const headers = {
     "Authorization": `Bearer ${apiKey}`,
     "Accept": "application/json",

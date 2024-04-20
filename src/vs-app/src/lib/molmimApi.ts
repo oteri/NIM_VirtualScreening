@@ -16,7 +16,7 @@ export const runMolmim = async ({
   apiKey,
   smiles,
 }: RunMolmimParams): Promise<Molecule[]> => {
-  const invokeUrl = '/api/v1/biology/nvidia/molmim/generate'; //https://health.api.nvidia.com/api/v1/biology/nvidia/molmim/generate';
+  const invokeUrl = '/biology/v1/biology/nvidia/molmim/generate'; //https://health.api.nvidia.com/biology/v1/biology/nvidia/molmim/generate';
 
   const headers = {
     "Authorization": `Bearer ${apiKey}`,

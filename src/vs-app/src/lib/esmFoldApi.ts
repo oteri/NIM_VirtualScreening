@@ -14,7 +14,7 @@ export const runEsmFold = async ({
   proteinSequence,
 }: RunEsmFoldParams): Promise<string> => {
 
- const invokeUrl = '/api/v1/biology/nvidia/esmfold'; //'https://health.api.nvidia.com/v1/biology/nvidia/esmfold';
+ const invokeUrl = '/biology/v1/biology/nvidia/esmfold'; //'https://health.api.nvidia.com/v1/biology/nvidia/esmfold';
 
   const headers = {
     "Authorization": `Bearer ${apiKey}`,
