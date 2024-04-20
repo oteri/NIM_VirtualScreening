@@ -25,21 +25,15 @@ import Spinner from '@/components/Spinner.vue';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { useField, useForm } from 'vee-validate';
+import { useField } from 'vee-validate';
 import { ref } from 'vue';
 import ESMFoldForm from './ESMFoldForm.vue';
 import LigandDockingForm from './LigandDockingForm.vue';
 
-const { handleSubmit, resetForm } = useForm();
 const { value: apiKey, errorMessage: apiKeyError } = useField<string>('apiKey');
 
 const loading = ref(false);
 const proteinPdb = ref('');
-
-const onSubmit = handleSubmit((values) => {
-  console.log('Form submitted!', values);
-  resetForm();
-});
 
 const handleLoading = (status:boolean) => {
   loading.value = status;

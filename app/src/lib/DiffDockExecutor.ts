@@ -14,7 +14,7 @@ export default async function executeDiffDock({
     "Authorization": `Bearer ${apiKey}`,
     "Accept": "application/json",
     "Content-Type": "application/json",
-    'NVCF-INPUT-ASSET-REFERENCES': [proteinAssetId, ligandAssetId],
+    'NVCF-INPUT-ASSET-REFERENCES': `${proteinAssetId}, ${ligandAssetId}`,
   };
   const payload = {
   protein:proteinAssetId,

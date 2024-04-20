@@ -19,7 +19,7 @@
     "tailwindcss-animate": "^1.0.7",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
-    "zod": "^3.22.4"
+    "zod": "^3.22.5"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
