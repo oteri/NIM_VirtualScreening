@@ -18,4 +18,4 @@ build:
 
 .PHONY: run
 run:	
-	docker  run --rm -d -t nmi-vs 
+	docker  run --rm -d -p 8080:80 -t nmi-vs 
