@@ -14,7 +14,7 @@
         </FormControl>
       </FormItem>
     </FormField>
-    <ESMFoldForm :api-key="apiKey" @loading="handleLoading" @update:proteinPdb="onPdbUpdate" />
+    <ESMFoldForm v-if="apiKey" :api-key="apiKey" @loading="handleLoading" @update:proteinPdb="onPdbUpdate" />
     <LigandDockingForm v-if="proteinPdb" :api-key="apiKey" :receptor="proteinPdb" @loading="handleLoading" />
     <Spinner :visible="loading" />
   </div>
