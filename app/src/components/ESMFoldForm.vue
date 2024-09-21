@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { runEsmFold } from '@/lib/esmFoldApi';
+import { runAF2Fold } from '@/lib/AF2Api';
 import { useField } from 'vee-validate';
 import { ref } from 'vue';
 
@@ -42,7 +42,7 @@ const { value: proteinSequence, errorMessage: proteinSequenceError } = useField<
 const onSubmit = async () => {
   emit('loading', true);
   try {
-    proteinPdb.value = await runEsmFold({apiKey:props.apiKey, proteinSequence: proteinSequence.value });
+    proteinPdb.value = await runAF2Fold({apiKey:props.apiKey, proteinSequence: proteinSequence.value });
     emit('update:proteinPdb', proteinPdb.value);
   } catch (error) {
     console.error('Error running ESM Fold:', error);
