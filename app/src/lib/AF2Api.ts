@@ -12,8 +12,8 @@ export const runAF2Fold = async ({
   apiKey,
   proteinSequence,
 }: RunAF2Params): Promise<string> => {
-  const invokeUrl = '/biology/v1/biology/deepmind/alphafold2';
-  const statusUrl = '/v1/status';
+  const invokeUrl = 'https://health.api.nvidia.com/v1/biology/deepmind/alphafold2';
+  const statusUrl = 'https://health.api.nvidia.com/v1/status';
 
   const headers = {
     "Content-Type": "application/json",
