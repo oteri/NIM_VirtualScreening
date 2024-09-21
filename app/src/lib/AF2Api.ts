@@ -12,11 +12,12 @@ export const runAF2Fold = async ({
   apiKey,
   proteinSequence,
 }: RunAF2Params): Promise<string> => {
-  const invokeUrl = 'https://health.api.nvidia.com/v1/biology/deepmind/alphafold2';
-  const statusUrl = 'https://health.api.nvidia.com/v1/status';
+  const invokeUrl = ' /biology/v1/biology/deepmind/alphafold2';
+  const statusUrl = ' /biology/v1/status';
 
   const headers = {
     "Content-Type": "application/json",
+    "Accept": "application/json",
     "Authorization": `Bearer ${apiKey}`,
     "NVCF-POLL-SECONDS": "5",
   };
