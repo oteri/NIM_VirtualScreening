@@ -2,11 +2,11 @@ SHELL := /bin/bash
 
 .PHONY: bash_frontend
 bash_frontend:
-	docker  run --rm --user "$(shell id -u):$(shell id -g)" -v ./app/:/app -w /app -it  node:18  bash
+	docker  run --rm --user "$(shell id -u):$(shell id -g)" -v $(PWD)/app/:/app -w /app -it  node:18  bash
 
 .PHONY: run_frontend
 run_frontend:
-	docker  run --rm --user "$(shell id -u):$(shell id -g)" -p 5173:5173 -v ./app/:/app -w /app -it  node:18  bash -c "npm run dev -- --host"
+	docker  run --rm --user "$(shell id -u):$(shell id -g)" -p 5173:5173 -v $(PWD)/app/:/app -w /app -it  node:18  bash -c "npm i && npm run dev -- --host"
 
 .PHONY: init
 init:
